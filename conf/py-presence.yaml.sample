@@ -1,0 +1,9 @@
+hosts:
+  jh-phone-th:
+    mac: 96:29:1c:e2:7c:aa
+  jh-phone-sg:
+    mac: e6:47:95:14:47:aa
+monitor:
+  frequency_sec: 10
+notify:
+  apprise: slack://T07FF50CZMJ/B07FF558ZNG/1aVgcwv/

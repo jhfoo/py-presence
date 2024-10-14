@@ -15,7 +15,7 @@ import apprise
 
 # custom
 import PingMonitor
-from GlobalVars import Global
+from GlobalVars import Global, HostState
 
 def getAppConfig():
   with open('conf/py-presence.yaml','r') as infile:
@@ -41,11 +41,12 @@ def getChangedMonitors(discovered):
   AppriseInstance.add(Global.AppConfig['notify']['apprise'])
 
   for OnlineMac in discovered.keys():
-    if Global.isMonitoredMac(OnlineMac) and Global.getMonitoredMacStatus(OnlineMac) == 'offline':
-      NewState = Global.setMonitoredHostState(OnlineMac, 'online', discovered[OnlineMac])
+    if Global.isMonitoredMac(OnlineMac) \
+      and Global.getMonitoredMacStatus(OnlineMac) == HostState.OFFLINE:
+      NewState = Global.setMonitoredHostState(OnlineMac, HostState.ONLINE, discovered[OnlineMac])
       ChangedMacs.append(NewState)
       AppriseInstance.notify(
-        body=f'Host {Global.MonitoredHosts[OnlineMac]["id"]} ({Global.MonitoredHosts[OnlineMac]["ip"]}) is in network',
+        body=f'Host {Global.MonitoredHosts[OnlineMac].id} ({Global.MonitoredHosts[OnlineMac].ip}) is in network',
         title = 'Host in network'
       )
   return ChangedMacs
@@ -57,7 +58,7 @@ print (f'Hosts monitored: {HostCount}')
 PingMonitor.start()
 
 print (f'Monitor frequency sec: {Global.AppConfig["monitor"]["frequency_sec"]}')
-print (f'MQTT host: {Global.AppConfig["monitor"]["mqtt_host"]}')
+# print (f'MQTT host: {Global.AppConfig["monitor"]["mqtt_host"]}')
 while True:
   FoundMacs = scanWithScapy()
   ChangedHosts = getChangedMonitors(FoundMacs)

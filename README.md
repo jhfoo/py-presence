@@ -4,7 +4,7 @@ This app scans the immediate network for host presence, defined by mac address.
 # Implementation
 2 methods of scan available:
 1. ~~nmap (to be implemented)~~
-2. scapy (to be implemented)
+2. scapy (implementing)
 
 nmap should be a little faster
 
